@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta name="theme-color" content="#0b0e14">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -11,7 +11,6 @@
 <title>رادیو ناین کرافت</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-/* ---------- Reset & Base ---------- */
 *,
 *::before,
 *::after {
@@ -92,24 +91,13 @@ body {
   -ms-overflow-style: none;
 }
 
-.radio::-webkit-scrollbar {
-  display: none;
-}
+.radio::-webkit-scrollbar { display: none; }
 
 @keyframes glow {
-  0% {
-    box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.8),
-      0 0 0 1px rgba(45, 212, 191, 0.2);
-  }
-  100% {
-    box-shadow:
-      0 20px 50px rgba(45, 212, 191, 0.3),
-      0 0 0 1px rgba(45, 212, 191, 0.5);
-  }
+  0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(45, 212, 191, 0.2); }
+  100% { box-shadow: 0 20px 50px rgba(45, 212, 191, 0.3), 0 0 0 1px rgba(45, 212, 191, 0.5); }
 }
 
-/* ---------- هدر ---------- */
 .header {
   display: flex;
   justify-content: space-between;
@@ -149,7 +137,6 @@ body {
   align-items: center;
   gap: 5px;
   animation: pulse 1.5s infinite;
-  will-change: transform;
   flex-shrink: 0;
 }
 
@@ -164,7 +151,6 @@ body {
   50% { opacity: 0.3; }
 }
 
-/* ---------- کاور ---------- */
 .cover {
   position: relative;
   width: 100%;
@@ -191,9 +177,7 @@ body {
 }
 
 .cover img.fade-out { opacity: 0; }
-.cover img.fade-in { opacity: 1; }
 
-/* ---------- موج صوتی ---------- */
 .waves {
   position: absolute;
   bottom: 0;
@@ -242,7 +226,6 @@ body {
   opacity: 0.5;
 }
 
-/* ---------- اطلاعات آهنگ ---------- */
 .info {
   text-align: center;
   margin-bottom: 16px;
@@ -269,7 +252,6 @@ body {
   min-height: 18px;
 }
 
-/* ---------- کنترل‌ها ---------- */
 .controls {
   display: flex;
   justify-content: center;
@@ -292,7 +274,6 @@ body {
   justify-content: center;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.3s ease;
-  will-change: transform;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -319,16 +300,14 @@ body {
   box-shadow: 0 4px 12px rgba(45, 212, 191, 0.6);
 }
 
-.btn.play.loading {
-  animation: spin 1s linear infinite;
-}
+.btn.play.loading i { animation: spin 1s linear infinite; }
 
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* ---------- کنترل صدا ---------- */
+/* ================= Volume ================= */
 .volume-wrap {
   display: flex;
   align-items: center;
@@ -366,71 +345,90 @@ body {
   border-color: rgba(239, 68, 68, 0.4);
 }
 
-/* اسلایدر سازگار با همه مرورگرها */
+/* ✅ اسلایدر کاملاً بازنویسی‌شده — سازگار با iOS/Android/Chrome/Firefox/Safari */
 .volume-slider {
   -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   flex: 1;
   width: 100%;
   min-width: 0;
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(
-    to left,
-    var(--accent) 0%,
-    var(--accent) var(--vol-percent, 100%),
-    rgba(255, 255, 255, 0.1) var(--vol-percent, 100%),
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  height: 32px;              /* ✅ ارتفاع بزرگ‌تر برای لمس راحت */
+  background: transparent;
   outline: none;
   cursor: pointer;
   direction: ltr;
-  -webkit-user-select: none;
-  user-select: none;
-  touch-action: pan-y;
   margin: 0;
   padding: 0;
+  touch-action: none;         /* ✅ اجازه drag افقی روی موبایل */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* ✅ Track پس‌زمینه از طریق background-image داده می‌شود */
+  background-image: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    var(--accent) var(--vol-percent, 100%),
+    rgba(255, 255, 255, 0.12) var(--vol-percent, 100%),
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  background-size: 100% 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 3px;
+}
+
+/* --- WebKit (Chrome/Safari/Edge) --- */
+.volume-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: transparent;   /* رنگ واقعی از background-image والد می‌آید */
 }
 
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;          /* وسط‌چین کردن روی track 6px */
   border-radius: 50%;
   background: var(--accent);
   border: 2px solid var(--bg-dark);
   box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
-  cursor: pointer;
+  cursor: grab;
   transition: transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .volume-slider::-webkit-slider-thumb:active {
-  transform: scale(1.2);
+  transform: scale(1.25);
+  cursor: grabbing;
 }
 
-.volume-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-dark);
-  box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
-  cursor: pointer;
-}
-
+/* --- Firefox --- */
 .volume-slider::-moz-range-track {
   height: 6px;
   border-radius: 3px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .volume-slider::-moz-range-progress {
   height: 6px;
   border-radius: 3px;
   background: var(--accent);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-dark);
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
+  cursor: grab;
+}
+
+.volume-slider::-moz-range-thumb:active {
+  cursor: grabbing;
 }
 
 .volume-value {
@@ -444,7 +442,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- ژانرها ---------- */
+/* ================= Genres ================= */
 .genres {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -465,7 +463,6 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  will-change: transform;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -494,7 +491,6 @@ body {
 
 .genre:active { transform: scale(0.95); }
 
-/* ---------- وضعیت ---------- */
 .status {
   text-align: center;
   font-size: 0.7rem;
@@ -505,7 +501,6 @@ body {
   line-height: 1.4;
 }
 
-/* ---------- Visualizer ---------- */
 .visualizer {
   position: absolute;
   inset: 0;
@@ -528,7 +523,6 @@ body {
     linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent 45%);
 }
 
-/* ---------- Focus ---------- */
 .btn:focus-visible,
 .volume-btn:focus-visible,
 .genre:focus-visible,
@@ -537,72 +531,41 @@ body {
   outline-offset: 3px;
 }
 
-/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
   .radio { animation: none; }
   .live { animation: none; }
 }
 
-/* ---------- Landscape موبایل ---------- */
 @media (max-height: 700px) and (orientation: landscape) {
-  .cover {
-    max-width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .header { margin-bottom: 10px; }
-  .info { margin-bottom: 10px; }
-  .controls { margin-bottom: 10px; }
-  .volume-wrap { margin-bottom: 10px; }
+  .cover { max-width: 200px; margin-left: auto; margin-right: auto; }
+  .header, .info, .controls, .volume-wrap { margin-bottom: 10px; }
 }
 
-/* ---------- موبایل باریک ---------- */
 @media (max-width: 360px) {
-  .radio {
-    border-radius: 24px;
-    padding: 16px 12px;
-  }
+  .radio { border-radius: 24px; padding: 16px 12px; }
   .brand span { display: none; }
   .brand i { font-size: 1.5rem; }
-  .volume-value {
-    min-width: 34px;
-    font-size: 0.65rem;
-  }
-  .genre {
-    padding: 6px 2px;
-    font-size: 0.6rem;
-  }
+  .volume-value { min-width: 34px; font-size: 0.65rem; }
+  .genre { padding: 6px 2px; font-size: 0.6rem; }
 }
 
-/* ---------- تبلت/دسکتاپ ---------- */
 @media (min-width: 768px) {
-  .radio {
-    max-width: 420px;
-    padding: 24px 20px;
-  }
+  .radio { max-width: 420px; padding: 24px 20px; }
   .genre { font-size: 0.72rem; }
 }
 
-/* ---------- Hover فقط با موس ---------- */
 @media (hover: hover) and (pointer: fine) {
   .genre:hover {
     background: rgba(255, 255, 255, 0.07);
     border-color: rgba(45, 212, 191, 0.4);
   }
-  .btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  .volume-btn:hover {
-    background: rgba(45, 212, 191, 0.15);
-  }
+  .btn:hover { background: rgba(255, 255, 255, 0.1); }
+  .volume-btn:hover { background: rgba(45, 212, 191, 0.15); }
 }
 </style>
 </head>
@@ -641,13 +604,13 @@ body {
     </button>
   </div>
 
-  <!-- کنترل صدا -->
+  <!-- ✅ کنترل صدا بازنویسی‌شده -->
   <div class="volume-wrap">
     <button class="volume-btn" id="muteBtn" title="بی‌صدا / وصل صدا" aria-label="بی‌صدا">
       <i class="fas fa-volume-high" id="muteIcon"></i>
     </button>
     <input type="range" class="volume-slider" id="volumeSlider"
-           min="0" max="1" step="0.01" value="1"
+           min="0" max="100" step="1" value="100"
            aria-label="میزان صدا" inputmode="numeric">
     <span class="volume-value" id="volumeValue">100%</span>
   </div>
@@ -667,150 +630,107 @@ body {
   <div class="status" id="status">برای پخش، دکمه ▶️ را بزن</div>
 </div>
 
-<audio id="audio" preload="none" crossorigin="anonymous"></audio>
+<audio id="audio" preload="none"></audio>
 
 <script>
 (function () {
   "use strict";
 
-  /* ---------- Fallback برای dvh روی مرورگرهای قدیمی ---------- */
+  /* ---------- Fix dvh ---------- */
   function setVH() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
   }
   setVH();
   window.addEventListener('resize', setVH);
   window.addEventListener('orientationchange', () => setTimeout(setVH, 200));
 
-  const audio = document.getElementById("audio");
-  const playBtn = document.getElementById("play");
-  const playIcon = document.getElementById("playIcon");
-  const waves = document.getElementById("waves");
-  const cover = document.getElementById("cover");
-  const title = document.getElementById("title");
-  const artist = document.getElementById("artist");
-  const statusEl = document.getElementById("status");
+  /* ---------- DOM refs ---------- */
+  const audio      = document.getElementById("audio");
+  const playBtn    = document.getElementById("play");
+  const playIcon   = document.getElementById("playIcon");
+  const waves      = document.getElementById("waves");
+  const cover      = document.getElementById("cover");
+  const title      = document.getElementById("title");
+  const artist     = document.getElementById("artist");
+  const statusEl   = document.getElementById("status");
   const genresContainer = document.getElementById("genres");
-  const genres = document.querySelectorAll(".genre");
-  const canvas = document.getElementById("visualizer");
-  const ctx = canvas.getContext("2d", { alpha: true });
+  const genres     = document.querySelectorAll(".genre");
+  const canvas     = document.getElementById("visualizer");
+  const ctx        = canvas.getContext("2d", { alpha: true });
 
-  // کنترل صدا
   const volumeSlider = document.getElementById("volumeSlider");
-  const volumeValue = document.getElementById("volumeValue");
-  const muteBtn = document.getElementById("muteBtn");
-  const muteIcon = document.getElementById("muteIcon");
-  let lastVolume = 1;
+  const volumeValue  = document.getElementById("volumeValue");
+  const muteBtn      = document.getElementById("muteBtn");
+  const muteIcon     = document.getElementById("muteIcon");
 
+  /* ---------- State ---------- */
   let playing = false;
   let loading = false;
   let coverTimer = null;
   let currentGenre = "phonk";
   let coverIndex = 0;
+  let lastVolume = 1;    // 0..1
+  let currentVolume = 1; // 0..1
 
-  const BASE_URL = "http://radio.9craft.ir:7443/";
+  const BASE_URL = (location.protocol === "https:" ? "https://" : "http://") + "radio.9craft.ir:7443/";
 
-  /* Web Audio */
+  /* ---------- Web Audio ---------- */
   let audioContext = null;
   let analyser = null;
   let sourceNode = null;
+  let gainNode = null;   // ✅ FIX: کنترل صدا از طریق Gain
   let freqData = null;
   let timeData = null;
   let audioGraphReady = false;
+  let audioGraphFailed = false;
   let rafId = null;
 
   const genresData = {
-    phonk: {
-      title: "SMOKED OUT", artist: "PRXSXNT FXTURE • Phonk",
-      covers: [
-        "https://picsum.photos/seed/phonk1/600",
-        "https://picsum.photos/seed/phonk2/600",
-        "https://picsum.photos/seed/phonk3/600",
-        "https://picsum.photos/seed/neon-phonk/600"
-      ]
-    },
-    phonk2: {
-      title: "MONTAGEM GREEN", artist: "Tsk.4 • Phonk2",
-      covers: [
-        "https://picsum.photos/seed/phonk2a/600",
-        "https://picsum.photos/seed/phonk2b/600",
-        "https://picsum.photos/seed/dark-phonk/600"
-      ]
-    },
-    persian: {
-      title: "Zemestoon", artist: "Afshin Moghadam • Persian",
-      covers: [
-        "https://picsum.photos/seed/persian1/600",
-        "https://picsum.photos/seed/persian2/600",
-        "https://picsum.photos/seed/iran/600"
-      ]
-    },
-    lofi: {
-      title: "Crépuscule", artist: "DLJ • Lofi",
-      covers: [
-        "https://picsum.photos/seed/lofi1/600",
-        "https://picsum.photos/seed/lofi2/600",
-        "https://picsum.photos/seed/chill/600"
-      ]
-    },
-    soul: {
-      title: "Soul", artist: "Radio • Soul",
-      covers: [
-        "https://picsum.photos/seed/soul1/600",
-        "https://picsum.photos/seed/soul2/600",
-        "https://picsum.photos/seed/warm/600"
-      ]
-    },
-    rock: {
-      title: "Rock", artist: "Radio • Rock",
-      covers: [
-        "https://picsum.photos/seed/rock1/600",
-        "https://picsum.photos/seed/rock2/600",
-        "https://picsum.photos/seed/guitar/600"
-      ]
-    },
-    pop: {
-      title: "Pop", artist: "Radio • Pop",
-      covers: [
-        "https://picsum.photos/seed/pop1/600",
-        "https://picsum.photos/seed/pop2/600",
-        "https://picsum.photos/seed/colorful/600"
-      ]
-    },
-    hiphop: {
-      title: "Hip-Hop", artist: "Radio • Hip-Hop",
-      covers: [
-        "https://picsum.photos/seed/hiphop1/600",
-        "https://picsum.photos/seed/hiphop2/600",
-        "https://picsum.photos/seed/urban/600"
-      ]
-    },
-    country: {
-      title: "Country", artist: "Radio • Country",
-      covers: [
-        "https://picsum.photos/seed/country1/600",
-        "https://picsum.photos/seed/country2/600",
-        "https://picsum.photos/seed/nature/600"
-      ]
-    }
+    phonk:  { title: "SMOKED OUT", artist: "PRXSXNT FXTURE • Phonk",
+      covers: ["https://picsum.photos/seed/phonk1/600","https://picsum.photos/seed/phonk2/600","https://picsum.photos/seed/phonk3/600","https://picsum.photos/seed/neon-phonk/600"] },
+    phonk2: { title: "MONTAGEM GREEN", artist: "Tsk.4 • Phonk2",
+      covers: ["https://picsum.photos/seed/phonk2a/600","https://picsum.photos/seed/phonk2b/600","https://picsum.photos/seed/dark-phonk/600"] },
+    persian:{ title: "Zemestoon", artist: "Afshin Moghadam • Persian",
+      covers: ["https://picsum.photos/seed/persian1/600","https://picsum.photos/seed/persian2/600","https://picsum.photos/seed/iran/600"] },
+    lofi:   { title: "Crépuscule", artist: "DLJ • Lofi",
+      covers: ["https://picsum.photos/seed/lofi1/600","https://picsum.photos/seed/lofi2/600","https://picsum.photos/seed/chill/600"] },
+    soul:   { title: "Soul", artist: "Radio • Soul",
+      covers: ["https://picsum.photos/seed/soul1/600","https://picsum.photos/seed/soul2/600","https://picsum.photos/seed/warm/600"] },
+    rock:   { title: "Rock", artist: "Radio • Rock",
+      covers: ["https://picsum.photos/seed/rock1/600","https://picsum.photos/seed/rock2/600","https://picsum.photos/seed/guitar/600"] },
+    pop:    { title: "Pop", artist: "Radio • Pop",
+      covers: ["https://picsum.photos/seed/pop1/600","https://picsum.photos/seed/pop2/600","https://picsum.photos/seed/colorful/600"] },
+    hiphop: { title: "Hip-Hop", artist: "Radio • Hip-Hop",
+      covers: ["https://picsum.photos/seed/hiphop1/600","https://picsum.photos/seed/hiphop2/600","https://picsum.photos/seed/urban/600"] },
+    country:{ title: "Country", artist: "Radio • Country",
+      covers: ["https://picsum.photos/seed/country1/600","https://picsum.photos/seed/country2/600","https://picsum.photos/seed/nature/600"] }
   };
 
+  /* ---------- Audio Graph ---------- */
   function setupAudioGraph() {
     if (audioGraphReady) return true;
+    if (audioGraphFailed) return false;
 
     try {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) throw new Error("Web Audio API unavailable");
 
       audioContext = new AC();
+
+      // ✅ FIX اصلی: مسیر = source -> gain -> analyser -> destination
+      sourceNode = audioContext.createMediaElementSource(audio);
+
+      gainNode = audioContext.createGain();
+      gainNode.gain.value = currentVolume; // مقدار اولیه
+
       analyser = audioContext.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.78;
       analyser.minDecibels = -90;
       analyser.maxDecibels = -10;
 
-      sourceNode = audioContext.createMediaElementSource(audio);
-      sourceNode.connect(analyser);
+      sourceNode.connect(gainNode);
+      gainNode.connect(analyser);
       analyser.connect(audioContext.destination);
 
       freqData = new Uint8Array(analyser.frequencyBinCount);
@@ -820,11 +740,12 @@ body {
       return true;
     } catch (err) {
       console.warn("Visualizer unavailable:", err);
-      statusEl.textContent = "🎵 در حال پخش";
+      audioGraphFailed = true;
       return false;
     }
   }
 
+  /* ---------- Canvas ---------- */
   function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
@@ -839,9 +760,9 @@ body {
 
   function drawVisualizer(now) {
     rafId = requestAnimationFrame(drawVisualizer);
-
-    if (now && now - lastFrame < FRAME_INTERVAL) return;
-    lastFrame = now || 0;
+    const t = now || performance.now();
+    if (t - lastFrame < FRAME_INTERVAL) return;
+    lastFrame = t;
 
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
@@ -849,26 +770,34 @@ body {
 
     ctx.clearRect(0, 0, w, h);
 
-    let bass = 0, mid = 0, level = 0;
-
-    if (analyser && freqData && timeData) {
-      analyser.getByteFrequencyData(freqData);
-      analyser.getByteTimeDomainData(timeData);
-
-      let bassSum = 0, midSum = 0, allSum = 0;
-      const n = freqData.length;
-
-      for (let i = 0; i < n; i++) {
-        const v = freqData[i] / 255;
-        allSum += v;
-        if (i < n * 0.12) bassSum += v;
-        else if (i < n * 0.5) midSum += v;
-      }
-
-      bass = bassSum / Math.max(1, n * 0.12);
-      mid = midSum / Math.max(1, n * 0.38);
-      level = allSum / n;
+    if (!analyser || !freqData || !timeData) {
+      const cx = w / 2, cy = h * 0.53;
+      const t2 = performance.now() / 800;
+      const r = Math.min(w, h) * 0.2 * (1 + Math.sin(t2) * 0.06);
+      const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, r * 2);
+      grad.addColorStop(0, "rgba(45,212,191,0.18)");
+      grad.addColorStop(1, "rgba(45,212,191,0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 2, 0, Math.PI * 2);
+      ctx.fill();
+      return;
     }
+
+    analyser.getByteFrequencyData(freqData);
+    analyser.getByteTimeDomainData(timeData);
+
+    let bassSum = 0, midSum = 0, allSum = 0;
+    const n = freqData.length;
+    for (let i = 0; i < n; i++) {
+      const v = freqData[i] / 255;
+      allSum += v;
+      if (i < n * 0.12) bassSum += v;
+      else if (i < n * 0.5) midSum += v;
+    }
+    const bass = bassSum / Math.max(1, n * 0.12);
+    const mid  = midSum  / Math.max(1, n * 0.38);
+    const level = allSum / n;
 
     const pulse = 1 + Math.min(.18, bass * .22 + level * .08);
     const cx = w / 2, cy = h * .53;
@@ -890,8 +819,8 @@ body {
 
     ctx.beginPath();
     for (let i = 0; i < bars; i++) {
-      const idx = Math.floor(i * (freqData ? freqData.length * .82 : 1) / bars);
-      const value = freqData ? freqData[idx] / 255 : 0;
+      const idx = Math.floor(i * (freqData.length * .82) / bars);
+      const value = freqData[idx] / 255;
       const angle = (Math.PI * 2 * i) / bars - Math.PI / 2;
       const inner = radius + 4;
       const outer = inner + 10 + value * Math.min(w, h) * .15;
@@ -904,19 +833,17 @@ body {
     }
     ctx.stroke();
 
-    if (timeData) {
-      ctx.beginPath();
-      for (let x = 0; x <= w; x += 3) {
-        const i = Math.floor((x / w) * timeData.length);
-        const sample = (timeData[i] - 128) / 128;
-        const y = h - 28 - sample * (12 + level * 25);
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = `rgba(165,243,252,${.25 + level * .5})`;
-      ctx.stroke();
+    ctx.beginPath();
+    for (let x = 0; x <= w; x += 3) {
+      const i = Math.floor((x / w) * timeData.length);
+      const sample = (timeData[i] - 128) / 128;
+      const y = h - 28 - sample * (12 + level * 25);
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     }
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = `rgba(165,243,252,${.25 + level * .5})`;
+    ctx.stroke();
 
     if (playing) {
       const brightness = 0.88 + Math.min(.28, level * .35 + bass * .08);
@@ -925,20 +852,22 @@ body {
     }
   }
 
+  /* ---------- Cover ---------- */
   function changeCover(genre) {
     const data = genresData[genre];
     if (!data) return;
-
     coverIndex = (coverIndex + 1) % data.covers.length;
     const nextCover = data.covers[coverIndex];
-    cover.classList.add("fade-out");
 
     const newImg = new Image();
     newImg.onload = function () {
-      cover.src = newImg.src;
-      requestAnimationFrame(() => requestAnimationFrame(() => cover.classList.remove("fade-out")));
+      cover.classList.add("fade-out");
+      setTimeout(() => {
+        cover.src = newImg.src;
+        requestAnimationFrame(() => cover.classList.remove("fade-out"));
+      }, 300);
     };
-    newImg.onerror = () => cover.classList.remove("fade-out");
+    newImg.onerror = () => {};
     newImg.src = nextCover;
   }
 
@@ -946,14 +875,11 @@ body {
     stopCoverRotation();
     coverTimer = setInterval(() => changeCover(currentGenre), 12000);
   }
-
   function stopCoverRotation() {
-    if (coverTimer) {
-      clearInterval(coverTimer);
-      coverTimer = null;
-    }
+    if (coverTimer) { clearInterval(coverTimer); coverTimer = null; }
   }
 
+  /* ---------- Playback ---------- */
   async function togglePlay() {
     if (loading) return;
 
@@ -966,7 +892,6 @@ body {
       stopCoverRotation();
       return;
     }
-
     startStream();
   }
 
@@ -982,14 +907,19 @@ body {
 
     try {
       setupAudioGraph();
+
+      // ✅ FIX: قبل از پخش، AudioContext رو resume کن (برای iOS)
       if (audioContext && audioContext.state === "suspended") {
-        await audioContext.resume();
+        try { await audioContext.resume(); } catch(_) {}
       }
 
-      if (audio.src !== url) {
+      if (audio.src !== url && audio.currentSrc !== url) {
         audio.src = url;
         audio.load();
       }
+
+      // ✅ FIX: volume مرورگر هم همگام شود (برای وقتی Web Audio نیست)
+      audio.volume = currentVolume;
 
       await audio.play();
 
@@ -999,7 +929,7 @@ body {
       playBtn.classList.remove("loading");
       playIcon.className = "fas fa-pause";
       waves.classList.remove("paused");
-      statusEl.textContent = "🎵 پخش زنده • واکنش به صدا فعال";
+      statusEl.textContent = "🎵 پخش زنده";
       coverIndex = 0;
       startCoverRotation();
     } catch (err) {
@@ -1008,7 +938,12 @@ body {
       playBtn.classList.remove("loading");
       playIcon.className = "fas fa-play";
       waves.classList.add("paused");
-      statusEl.textContent = "⚠️ اتصال ناموفق؛ دوباره ▶️ را بزن";
+      stopCoverRotation();
+
+      let msg = "⚠️ اتصال ناموفق؛ دوباره ▶️ را بزن";
+      if (err && err.name === "NotAllowedError") msg = "⚠️ مرورگر اجازه پخش نداد؛ یک بار دیگر بزن";
+      if (err && err.name === "NotSupportedError") msg = "⚠️ فرمت استریم پشتیبانی نمی‌شود";
+      statusEl.textContent = msg;
       console.log("خطای پخش:", err);
     }
   }
@@ -1019,7 +954,6 @@ body {
     playBtn.classList.remove("loading");
     playIcon.className = "fas fa-pause";
     waves.classList.remove("paused");
-    statusEl.textContent = "🎵 در حال پخش زنده • Visualizer فعال";
   });
 
   audio.addEventListener("waiting", () => {
@@ -1051,10 +985,12 @@ body {
 
   playBtn.addEventListener("click", togglePlay);
 
+  /* ---------- Genre Selection ---------- */
   function selectGenre(el) {
     const genre = el.getAttribute("data-stream");
-    currentGenre = genre;
+    if (genre === currentGenre && playing) return;
 
+    currentGenre = genre;
     genres.forEach(g => g.classList.remove("active"));
     el.classList.add("active");
 
@@ -1070,10 +1006,10 @@ body {
     }
 
     if (playing) {
+      stopCoverRotation();
       audio.pause();
       playing = false;
-      stopCoverRotation();
-      setTimeout(startStream, 180);
+      setTimeout(() => { startStream(); }, 120);
     } else {
       statusEl.textContent = "برای پخش، دکمه ▶️ را بزن";
     }
@@ -1087,92 +1023,143 @@ body {
   genresContainer.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       const el = e.target.closest(".genre");
-      if (el) {
-        e.preventDefault();
-        selectGenre(el);
-      }
+      if (el) { e.preventDefault(); selectGenre(el); }
     }
   });
 
-  /* ---------- کنترل صدا ---------- */
-  function updateVolumeUI(value) {
-    const percent = Math.round(value * 100);
+  /* ================= Volume — کاملاً بازنویسی‌شده ================= */
+
+  // ✅ FIX اصلی: صدا هم روی audio.volume و هم روی GainNode ست می‌شود
+  function applyVolume(v) {
+    v = Math.max(0, Math.min(1, v));
+    currentVolume = v;
+
+    // 1) مستقیم روی audio
+    try { audio.volume = v; } catch(_) {}
+
+    // 2) روی GainNode (اگر Web Audio فعال است — مسیر اصلی)
+    if (gainNode && audioContext) {
+      const now = audioContext.currentTime;
+      // ✅ از setTargetAtTime برای smooth شدن بدون کلیک استفاده می‌کنیم
+      try {
+        gainNode.gain.cancelScheduledValues(now);
+        gainNode.gain.setTargetAtTime(v, now, 0.015);
+      } catch(_) {
+        gainNode.gain.value = v;
+      }
+    }
+  }
+
+  function updateVolumeUI(v) {
+    const percent = Math.round(v * 100);
     volumeValue.textContent = percent + "%";
+
+    // ✅ FIX: مقدار را روی input اعمال کن (نه فقط style)
+    volumeSlider.value = percent;
+
+    // ✅ نوار رنگی از طریق background-image (سازگار با همه مرورگرها)
     volumeSlider.style.setProperty("--vol-percent", percent + "%");
 
     muteIcon.className = "fas " +
-      (value === 0 ? "fa-volume-xmark" :
-       value < 0.33 ? "fa-volume-off" :
-       value < 0.66 ? "fa-volume-low" : "fa-volume-high");
+      (v === 0     ? "fa-volume-xmark" :
+       v < 0.33    ? "fa-volume-off"   :
+       v < 0.66    ? "fa-volume-low"   : "fa-volume-high");
 
-    muteBtn.classList.toggle("mute", value === 0);
+    muteBtn.classList.toggle("mute", v === 0);
   }
 
-  volumeSlider.addEventListener("input", () => {
-    const val = parseFloat(volumeSlider.value);
-    audio.volume = val;
-    if (val > 0) lastVolume = val;
-    updateVolumeUI(val);
+  // ✅ یک تابع واحد برای همه تغییرات صدا
+  function setVolume(v, { updateLast = true } = {}) {
+    v = Math.max(0, Math.min(1, v));
+    if (v > 0 && updateLast) lastVolume = v;
+    applyVolume(v);
+    updateVolumeUI(v);
+  }
+
+  // ✅ FIX: هم input و هم change (برای iOS که گاهی change نمی‌دهد)
+  volumeSlider.addEventListener("input", (e) => {
+    const v = parseFloat(e.target.value) / 100;
+    setVolume(v);
+  }, { passive: true });
+
+  volumeSlider.addEventListener("change", (e) => {
+    const v = parseFloat(e.target.value) / 100;
+    setVolume(v);
+  }, { passive: true });
+
+  // ✅ FIX: pointer events برای drag پایدار روی موبایل
+  volumeSlider.addEventListener("pointerdown", (e) => {
+    // AudioContext رو فعال کن (اولین تعامل کاربر)
+    if (audioContext && audioContext.state === "suspended") {
+      audioContext.resume().catch(() => {});
+    }
+    volumeSlider.setPointerCapture?.(e.pointerId);
   });
 
-  volumeSlider.addEventListener("change", () => {
-    const val = parseFloat(volumeSlider.value);
-    audio.volume = val;
-    if (val > 0) lastVolume = val;
-    updateVolumeUI(val);
-  });
-
-  muteBtn.addEventListener("click", () => {
-    if (audio.volume > 0) {
-      lastVolume = audio.volume;
-      audio.volume = 0;
-      volumeSlider.value = 0;
-      updateVolumeUI(0);
-    } else {
-      audio.volume = lastVolume || 1;
-      volumeSlider.value = audio.volume;
-      updateVolumeUI(audio.volume);
+  volumeSlider.addEventListener("pointermove", (e) => {
+    if (e.buttons === 0 && e.pointerType === "mouse") return;
+    // اگر drag فعال است، مقدار را محاسبه کن
+    if (e.pointerType === "touch" || e.buttons > 0) {
+      const rect = volumeSlider.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const v = Math.max(0, Math.min(1, x / rect.width));
+      setVolume(v);
     }
   });
 
+  // ✅ دکمه mute
+  muteBtn.addEventListener("click", () => {
+    if (currentVolume > 0) {
+      lastVolume = currentVolume;
+      setVolume(0, { updateLast: false });
+    } else {
+      setVolume(lastVolume || 1);
+    }
+  });
+
+  // ✅ کیبورد
   volumeSlider.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp" || e.key === "ArrowRight") {
       e.preventDefault();
-      const v = Math.min(1, audio.volume + 0.05);
-      audio.volume = v; volumeSlider.value = v; updateVolumeUI(v);
+      setVolume(currentVolume + 0.05);
     } else if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
       e.preventDefault();
-      const v = Math.max(0, audio.volume - 0.05);
-      audio.volume = v; volumeSlider.value = v; updateVolumeUI(v);
+      setVolume(currentVolume - 0.05);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setVolume(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setVolume(1);
     }
   });
 
-  audio.volume = 1;
-  updateVolumeUI(1);
+  // ✅ مقدار اولیه
+  setVolume(1);
 
+  /* ---------- Resize ---------- */
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     if (resizeTimer) clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resizeCanvas, 150);
   });
+  window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 300));
 
-  window.addEventListener("orientationchange", () => {
-    setTimeout(resizeCanvas, 300);
-  });
-
+  /* ---------- Visibility ---------- */
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopCoverRotation();
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     } else {
       if (playing) startCoverRotation();
+      lastFrame = 0;
       if (!rafId) rafId = requestAnimationFrame(drawVisualizer);
     }
   });
 
-  if (setupAudioGraph()) {
-    rafId = requestAnimationFrame(drawVisualizer);
-  }
+  /* ---------- Init ---------- */
+  setupAudioGraph();
+  rafId = requestAnimationFrame(drawVisualizer);
   statusEl.textContent = "برای پخش، دکمه ▶️ را بزن";
 })();
 </script>
