@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>رادیو ناین کرافت</title>
+<title>رادیو ارک ماین</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
 *,
@@ -307,7 +307,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ================= Volume ================= */
 .volume-wrap {
   display: flex;
   align-items: center;
@@ -345,25 +344,23 @@ body {
   border-color: rgba(239, 68, 68, 0.4);
 }
 
-/* ✅ اسلایدر کاملاً بازنویسی‌شده — سازگار با iOS/Android/Chrome/Firefox/Safari */
 .volume-slider {
   -webkit-appearance: none;
   appearance: none;
   flex: 1;
   width: 100%;
   min-width: 0;
-  height: 32px;              /* ✅ ارتفاع بزرگ‌تر برای لمس راحت */
+  height: 32px;
   background: transparent;
   outline: none;
   cursor: pointer;
   direction: ltr;
   margin: 0;
   padding: 0;
-  touch-action: none;         /* ✅ اجازه drag افقی روی موبایل */
+  touch-action: none;
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  /* ✅ Track پس‌زمینه از طریق background-image داده می‌شود */
   background-image: linear-gradient(
     to right,
     var(--accent) 0%,
@@ -377,11 +374,10 @@ body {
   border-radius: 3px;
 }
 
-/* --- WebKit (Chrome/Safari/Edge) --- */
 .volume-slider::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 3px;
-  background: transparent;   /* رنگ واقعی از background-image والد می‌آید */
+  background: transparent;
 }
 
 .volume-slider::-webkit-slider-thumb {
@@ -389,7 +385,7 @@ body {
   appearance: none;
   width: 20px;
   height: 20px;
-  margin-top: -7px;          /* وسط‌چین کردن روی track 6px */
+  margin-top: -7px;
   border-radius: 50%;
   background: var(--accent);
   border: 2px solid var(--bg-dark);
@@ -404,7 +400,6 @@ body {
   cursor: grabbing;
 }
 
-/* --- Firefox --- */
 .volume-slider::-moz-range-track {
   height: 6px;
   border-radius: 3px;
@@ -442,7 +437,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ================= Genres ================= */
 .genres {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -575,7 +569,7 @@ body {
   <div class="header">
     <div class="brand">
       <i class="fas fa-broadcast-tower"></i>
-      <span>ناین کرافت</span>
+      <span>رادیو ارک ماین</span>
     </div>
     <div class="live">
       <i class="fas fa-circle"></i> زنده
@@ -583,7 +577,7 @@ body {
   </div>
 
   <div class="cover">
-    <img id="cover" src="https://picsum.photos/seed/phonk1/600" alt="cover">
+    <img id="cover" src="https://picsum.photos/seed/phonk1/600" alt="cover" crossorigin="anonymous">
     <canvas id="visualizer" class="visualizer"></canvas>
     <div class="waves paused" id="waves" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -604,7 +598,6 @@ body {
     </button>
   </div>
 
-  <!-- ✅ کنترل صدا بازنویسی‌شده -->
   <div class="volume-wrap">
     <button class="volume-btn" id="muteBtn" title="بی‌صدا / وصل صدا" aria-label="بی‌صدا">
       <i class="fas fa-volume-high" id="muteIcon"></i>
@@ -630,7 +623,7 @@ body {
   <div class="status" id="status">برای پخش، دکمه ▶️ را بزن</div>
 </div>
 
-<audio id="audio" preload="none"></audio>
+<audio id="audio" preload="none" crossorigin="anonymous"></audio>
 
 <script>
 (function () {
@@ -669,8 +662,9 @@ body {
   let coverTimer = null;
   let currentGenre = "phonk";
   let coverIndex = 0;
-  let lastVolume = 1;    // 0..1
-  let currentVolume = 1; // 0..1
+  let lastVolume = 1;
+  let currentVolume = 1;
+  let playRequestId = 0; // برای کنسل کردن play های قدیمی
 
   const BASE_URL = (location.protocol === "https:" ? "https://" : "http://") + "radio.9craft.ir:7443/";
 
@@ -678,7 +672,7 @@ body {
   let audioContext = null;
   let analyser = null;
   let sourceNode = null;
-  let gainNode = null;   // ✅ FIX: کنترل صدا از طریق Gain
+  let gainNode = null;
   let freqData = null;
   let timeData = null;
   let audioGraphReady = false;
@@ -706,7 +700,7 @@ body {
       covers: ["https://picsum.photos/seed/country1/600","https://picsum.photos/seed/country2/600","https://picsum.photos/seed/nature/600"] }
   };
 
-  /* ---------- Audio Graph ---------- */
+  /* ---------- Audio Graph (فقط بعد از تعامل کاربر) ---------- */
   function setupAudioGraph() {
     if (audioGraphReady) return true;
     if (audioGraphFailed) return false;
@@ -717,11 +711,11 @@ body {
 
       audioContext = new AC();
 
-      // ✅ FIX اصلی: مسیر = source -> gain -> analyser -> destination
+      // ⚠️ مهم: crossOrigin باید قبلاً تنظیم شده باشد (در HTML هم هست)
       sourceNode = audioContext.createMediaElementSource(audio);
 
       gainNode = audioContext.createGain();
-      gainNode.gain.value = currentVolume; // مقدار اولیه
+      gainNode.gain.value = currentVolume;
 
       analyser = audioContext.createAnalyser();
       analyser.fftSize = 256;
@@ -739,8 +733,12 @@ body {
       resizeCanvas();
       return true;
     } catch (err) {
-      console.warn("Visualizer unavailable:", err);
+      console.warn("Web Audio unavailable, using fallback (audio.volume):", err);
       audioGraphFailed = true;
+      audioContext = null;
+      analyser = null;
+      sourceNode = null;
+      gainNode = null;
       return false;
     }
   }
@@ -860,6 +858,7 @@ body {
     const nextCover = data.covers[coverIndex];
 
     const newImg = new Image();
+    newImg.crossOrigin = "anonymous";
     newImg.onload = function () {
       cover.classList.add("fade-out");
       setTimeout(() => {
@@ -892,13 +891,14 @@ body {
       stopCoverRotation();
       return;
     }
-    startStream();
+    await startStream();
   }
 
   async function startStream() {
     const active = document.querySelector(".genre.active");
     const genre = active ? active.getAttribute("data-stream") : currentGenre;
     const url = BASE_URL + genre;
+    const reqId = ++playRequestId;
 
     loading = true;
     playIcon.className = "fas fa-spinner";
@@ -906,22 +906,27 @@ body {
     statusEl.textContent = "در حال اتصال...";
 
     try {
+      // 1) گراف صوتی را فقط اینجا بساز (بعد از تعامل کاربر)
       setupAudioGraph();
 
-      // ✅ FIX: قبل از پخش، AudioContext رو resume کن (برای iOS)
+      // 2) اگر AudioContext در حالت suspended است، resume کن
       if (audioContext && audioContext.state === "suspended") {
         try { await audioContext.resume(); } catch(_) {}
       }
 
-      if (audio.src !== url && audio.currentSrc !== url) {
+      // 3) تغییر src فقط اگر URL تغییر کرده باشد
+      if (audio.src !== url) {
         audio.src = url;
         audio.load();
       }
 
-      // ✅ FIX: volume مرورگر هم همگام شود (برای وقتی Web Audio نیست)
+      // 4) volume مرورگر هم همگام (برای fallback)
       audio.volume = currentVolume;
 
+      // 5) پخش
       await audio.play();
+
+      if (reqId !== playRequestId) return; // درخواست جدیدتری آمده
 
       loading = false;
       playing = true;
@@ -933,6 +938,8 @@ body {
       coverIndex = 0;
       startCoverRotation();
     } catch (err) {
+      if (reqId !== playRequestId) return;
+
       loading = false;
       playing = false;
       playBtn.classList.remove("loading");
@@ -942,7 +949,9 @@ body {
 
       let msg = "⚠️ اتصال ناموفق؛ دوباره ▶️ را بزن";
       if (err && err.name === "NotAllowedError") msg = "⚠️ مرورگر اجازه پخش نداد؛ یک بار دیگر بزن";
-      if (err && err.name === "NotSupportedError") msg = "⚠️ فرمت استریم پشتیبانی نمی‌شود";
+      else if (err && err.name === "NotSupportedError") msg = "⚠️ فرمت استریم پشتیبانی نمی‌شود";
+      else if (err && err.name === "AbortError") msg = "⚠️ پخش لغو شد؛ دوباره تلاش کن";
+
       statusEl.textContent = msg;
       console.log("خطای پخش:", err);
     }
@@ -1027,37 +1036,34 @@ body {
     }
   });
 
-  /* ================= Volume — کاملاً بازنویسی‌شده ================= */
+  /* ================= Volume ================= */
 
-  // ✅ FIX اصلی: صدا هم روی audio.volume و هم روی GainNode ست می‌شود
+  // ✅ FIX: صدا یک‌بار اعمال می‌شود (Gain یا audio.volume — نه هر دو)
   function applyVolume(v) {
     v = Math.max(0, Math.min(1, v));
     currentVolume = v;
 
-    // 1) مستقیم روی audio
-    try { audio.volume = v; } catch(_) {}
-
-    // 2) روی GainNode (اگر Web Audio فعال است — مسیر اصلی)
-    if (gainNode && audioContext) {
+    if (audioGraphReady && gainNode && audioContext) {
+      // مسیر Web Audio فعال — فقط Gain
       const now = audioContext.currentTime;
-      // ✅ از setTargetAtTime برای smooth شدن بدون کلیک استفاده می‌کنیم
       try {
         gainNode.gain.cancelScheduledValues(now);
         gainNode.gain.setTargetAtTime(v, now, 0.015);
       } catch(_) {
         gainNode.gain.value = v;
       }
+      // اطمینان از اینکه audio.volume روی 1 است تا دو بار کم نشود
+      try { audio.volume = 1; } catch(_) {}
+    } else {
+      // fallback — فقط audio.volume
+      try { audio.volume = v; } catch(_) {}
     }
   }
 
   function updateVolumeUI(v) {
     const percent = Math.round(v * 100);
     volumeValue.textContent = percent + "%";
-
-    // ✅ FIX: مقدار را روی input اعمال کن (نه فقط style)
     volumeSlider.value = percent;
-
-    // ✅ نوار رنگی از طریق background-image (سازگار با همه مرورگرها)
     volumeSlider.style.setProperty("--vol-percent", percent + "%");
 
     muteIcon.className = "fas " +
@@ -1068,7 +1074,6 @@ body {
     muteBtn.classList.toggle("mute", v === 0);
   }
 
-  // ✅ یک تابع واحد برای همه تغییرات صدا
   function setVolume(v, { updateLast = true } = {}) {
     v = Math.max(0, Math.min(1, v));
     if (v > 0 && updateLast) lastVolume = v;
@@ -1076,38 +1081,36 @@ body {
     updateVolumeUI(v);
   }
 
-  // ✅ FIX: هم input و هم change (برای iOS که گاهی change نمی‌دهد)
   volumeSlider.addEventListener("input", (e) => {
-    const v = parseFloat(e.target.value) / 100;
-    setVolume(v);
+    setVolume(parseFloat(e.target.value) / 100);
   }, { passive: true });
 
   volumeSlider.addEventListener("change", (e) => {
-    const v = parseFloat(e.target.value) / 100;
-    setVolume(v);
+    setVolume(parseFloat(e.target.value) / 100);
   }, { passive: true });
 
-  // ✅ FIX: pointer events برای drag پایدار روی موبایل
+  // ✅ FIX: pointermove فقط وقتی در حال drag هستیم
+  let isDragging = false;
   volumeSlider.addEventListener("pointerdown", (e) => {
-    // AudioContext رو فعال کن (اولین تعامل کاربر)
+    isDragging = true;
     if (audioContext && audioContext.state === "suspended") {
       audioContext.resume().catch(() => {});
     }
-    volumeSlider.setPointerCapture?.(e.pointerId);
+    try { volumeSlider.setPointerCapture(e.pointerId); } catch(_) {}
   });
+
+  volumeSlider.addEventListener("pointerup", () => { isDragging = false; });
+  volumeSlider.addEventListener("pointercancel", () => { isDragging = false; });
+  volumeSlider.addEventListener("lostpointercapture", () => { isDragging = false; });
 
   volumeSlider.addEventListener("pointermove", (e) => {
-    if (e.buttons === 0 && e.pointerType === "mouse") return;
-    // اگر drag فعال است، مقدار را محاسبه کن
-    if (e.pointerType === "touch" || e.buttons > 0) {
-      const rect = volumeSlider.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const v = Math.max(0, Math.min(1, x / rect.width));
-      setVolume(v);
-    }
+    if (!isDragging) return;
+    const rect = volumeSlider.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const v = Math.max(0, Math.min(1, x / rect.width));
+    setVolume(v);
   });
 
-  // ✅ دکمه mute
   muteBtn.addEventListener("click", () => {
     if (currentVolume > 0) {
       lastVolume = currentVolume;
@@ -1117,7 +1120,6 @@ body {
     }
   });
 
-  // ✅ کیبورد
   volumeSlider.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp" || e.key === "ArrowRight") {
       e.preventDefault();
@@ -1134,7 +1136,7 @@ body {
     }
   });
 
-  // ✅ مقدار اولیه
+  // مقدار اولیه
   setVolume(1);
 
   /* ---------- Resize ---------- */
@@ -1158,7 +1160,8 @@ body {
   });
 
   /* ---------- Init ---------- */
-  setupAudioGraph();
+  // ⚠️ setupAudioGraph() را از اینجا حذف کردیم — فقط داخل startStream ساخته می‌شود
+  resizeCanvas();
   rafId = requestAnimationFrame(drawVisualizer);
   statusEl.textContent = "برای پخش، دکمه ▶️ را بزن";
 })();
