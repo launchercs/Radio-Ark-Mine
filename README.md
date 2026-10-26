@@ -84,14 +84,17 @@ This project uses **GitHub Actions** for automatic deployment. Every push to the
 
 ---
 
-## ⚠️ Disclaimer
 
-Built for **educational purposes** only. Streamed content comes from public streaming servers.
+Built for **educational purposes** o
 
 ---
 
 ## 📄 License
 
 Released under the **MIT License** — free to use, modify, and distribute.
+
+---
+
+*by launchercs
 
 </div>
