@@ -95,6 +95,6 @@ Released under the **MIT License** — free to use, modify, and distribute.
 
 ---
 
-*by launchercs
+- ## by launchercs
 
 </div>
