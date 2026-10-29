@@ -80,23 +80,16 @@ body {
   border-radius: 32px;
   padding: 20px 16px;
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.8),
-    0 0 0 1px rgba(45, 212, 191, 0.2),
-    inset 0 0 30px rgba(45, 212, 191, 0.08);
+    0 15px 35px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(45, 212, 191, 0.3),
+    inset 0 0 30px rgba(45, 212, 191, 0.05);
   border: 1px solid rgba(45, 212, 191, 0.2);
-  animation: glow 5s infinite alternate;
-  will-change: box-shadow;
   isolation: isolate;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 .radio::-webkit-scrollbar { display: none; }
-
-@keyframes glow {
-  0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(45, 212, 191, 0.2); }
-  100% { box-shadow: 0 20px 50px rgba(45, 212, 191, 0.3), 0 0 0 1px rgba(45, 212, 191, 0.5); }
-}
 
 .header {
   display: flex;
@@ -136,31 +129,30 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
-  animation: pulse 1.5s infinite;
+  animation: pulse 2s infinite ease-in-out;
   flex-shrink: 0;
 }
 
-.live i { font-size: 0.5rem; animation: blink 1s infinite; }
+.live i { font-size: 0.5rem; animation: blink 1.5s infinite; }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  50% { transform: scale(1.05); }
 }
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  50% { opacity: 0.4; }
 }
 
 .cover {
   position: relative;
   width: 100%;
-  padding-bottom: 100%;
-  height: 0;
+  aspect-ratio: 1 / 1;
   border-radius: 24px;
   overflow: hidden;
   margin-bottom: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  background: var(--bg-dark);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(145deg, var(--bg-dark), var(--accent-dark));
 }
 
 .cover img {
@@ -170,7 +162,7 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: filter 0.6s ease, opacity 0.6s ease;
+  transition: filter 0.4s ease, opacity 0.4s ease;
   filter: brightness(0.85) saturate(1.2);
   will-change: filter, opacity;
   z-index: 1;
@@ -200,24 +192,23 @@ body {
   border-radius: 3px;
   box-shadow: 0 0 8px var(--accent);
   transform-origin: bottom center;
-  animation: wave 1.1s infinite ease-in-out;
-  will-change: transform;
+  animation: wave 1.2s infinite ease-in-out;
 }
 
 .bar:nth-child(1) { height: 15px; animation-delay: 0s; }
-.bar:nth-child(2) { height: 30px; animation-delay: 0.09s; }
-.bar:nth-child(3) { height: 45px; animation-delay: 0.18s; }
-.bar:nth-child(4) { height: 25px; animation-delay: 0.27s; }
-.bar:nth-child(5) { height: 50px; animation-delay: 0.36s; }
-.bar:nth-child(6) { height: 35px; animation-delay: 0.45s; }
-.bar:nth-child(7) { height: 20px; animation-delay: 0.54s; }
-.bar:nth-child(8) { height: 45px; animation-delay: 0.63s; }
-.bar:nth-child(9) { height: 30px; animation-delay: 0.72s; }
-.bar:nth-child(10) { height: 15px; animation-delay: 0.81s; }
+.bar:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+.bar:nth-child(3) { height: 45px; animation-delay: 0.2s; }
+.bar:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+.bar:nth-child(5) { height: 50px; animation-delay: 0.4s; }
+.bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
+.bar:nth-child(7) { height: 20px; animation-delay: 0.6s; }
+.bar:nth-child(8) { height: 45px; animation-delay: 0.7s; }
+.bar:nth-child(9) { height: 30px; animation-delay: 0.8s; }
+.bar:nth-child(10) { height: 15px; animation-delay: 0.9s; }
 
 @keyframes wave {
   0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
-  50% { transform: scaleY(1.7); opacity: 1; }
+  50% { transform: scaleY(1.6); opacity: 1; }
 }
 
 .paused .bar {
@@ -238,7 +229,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 0 15px rgba(45, 212, 191, 0.5);
+  text-shadow: 0 0 12px rgba(45, 212, 191, 0.5);
   margin-bottom: 4px;
   min-height: 22px;
 }
@@ -273,7 +264,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.3s ease;
+  transition: transform 0.15s ease, background 0.3s ease, opacity 0.3s ease;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -289,15 +280,22 @@ body {
   background: linear-gradient(145deg, var(--accent-dark), var(--accent));
   color: var(--bg-dark);
   border: none;
-  box-shadow: 0 8px 20px rgba(45, 212, 191, 0.5);
-  transition: transform 0.15s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(45, 212, 191, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.3s ease, opacity 0.3s ease;
   flex-shrink: 0;
   padding: 0;
 }
 
+.btn:disabled, .genre.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+}
+
 .btn.play:active {
   transform: scale(0.93);
-  box-shadow: 0 4px 12px rgba(45, 212, 191, 0.6);
+  box-shadow: 0 4px 12px rgba(45, 212, 191, 0.5);
 }
 
 .btn.play.loading i { animation: spin 1s linear infinite; }
@@ -453,7 +451,7 @@ body {
   text-align: center;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.25s ease,
-              border-color 0.25s ease, color 0.25s ease;
+              border-color 0.25s ease, color 0.25s ease, opacity 0.3s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -502,7 +500,6 @@ body {
   height: 100%;
   z-index: 2;
   pointer-events: none;
-  mix-blend-mode: screen;
   display: block;
 }
 
@@ -513,8 +510,8 @@ body {
   z-index: 3;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 55%, rgba(45, 212, 191, 0.08), transparent 38%),
-    linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent 45%);
+    radial-gradient(circle at 50% 55%, rgba(45, 212, 191, 0.05), transparent 40%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 45%);
 }
 
 .btn:focus-visible,
@@ -523,21 +520,6 @@ body {
 .volume-slider:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .radio { animation: none; }
-  .live { animation: none; }
-}
-
-@media (max-height: 700px) and (orientation: landscape) {
-  .cover { max-width: 200px; margin-left: auto; margin-right: auto; }
-  .header, .info, .controls, .volume-wrap { margin-bottom: 10px; }
 }
 
 @media (max-width: 360px) {
@@ -577,7 +559,7 @@ body {
   </div>
 
   <div class="cover">
-    <img id="cover" src="https://picsum.photos/seed/phonk1/600" alt="cover" crossorigin="anonymous">
+    <img id="cover" alt="cover" crossorigin="anonymous">
     <canvas id="visualizer" class="visualizer"></canvas>
     <div class="waves paused" id="waves" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -618,6 +600,10 @@ body {
     <div class="genre" data-stream="pop" tabindex="0" role="button"><i class="fas fa-star"></i>پاپ</div>
     <div class="genre" data-stream="hiphop" tabindex="0" role="button"><i class="fas fa-microphone"></i>هیپ‌هاپ</div>
     <div class="genre" data-stream="country" tabindex="0" role="button"><i class="fas fa-hat-cowboy"></i>کانتری</div>
+    <div class="genre" data-stream="ost" tabindex="0" role="button"><i class="fas fa-film"></i>متن فیلم</div>
+    <div class="genre" data-stream="pop2" tabindex="0" role="button"><i class="fas fa-music"></i>پاپ۲</div>
+    <div class="genre" data-stream="persianrap" tabindex="0" role="button"><i class="fas fa-microphone-lines"></i>رپ فارسی</div>
+    <div class="genre" data-stream="relaxing" tabindex="0" role="button"><i class="fas fa-spa"></i>ریلکسینگ</div>
   </div>
 
   <div class="status" id="status">برای پخش، دکمه ▶️ را بزن</div>
@@ -629,7 +615,6 @@ body {
 (function () {
   "use strict";
 
-  /* ---------- Fix dvh ---------- */
   function setVH() {
     document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
   }
@@ -637,7 +622,6 @@ body {
   window.addEventListener('resize', setVH);
   window.addEventListener('orientationchange', () => setTimeout(setVH, 200));
 
-  /* ---------- DOM refs ---------- */
   const audio      = document.getElementById("audio");
   const playBtn    = document.getElementById("play");
   const playIcon   = document.getElementById("playIcon");
@@ -656,19 +640,36 @@ body {
   const muteBtn      = document.getElementById("muteBtn");
   const muteIcon     = document.getElementById("muteIcon");
 
-  /* ---------- State ---------- */
+  const FALLBACK_IMG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0b0e14"/>
+          <stop offset="100%" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="600" fill="url(#g)"/>
+      <circle cx="300" cy="300" r="140" fill="none" stroke="#2dd4bf" stroke-width="6" stroke-dasharray="18, 12" opacity="0.4"/>
+      <circle cx="300" cy="300" r="70" fill="none" stroke="#2dd4bf" stroke-width="3" opacity="0.6"/>
+      <circle cx="300" cy="300" r="15" fill="#2dd4bf" opacity="0.8"/>
+    </svg>
+  `);
+
   let playing = false;
   let loading = false;
   let coverTimer = null;
   let currentGenre = "phonk";
   let coverIndex = 0;
-  let lastVolume = 1;
-  let currentVolume = 1;
-  let playRequestId = 0; // برای کنسل کردن play های قدیمی
+  let playRequestId = 0;
+  let retryTimer = null;
+  let saveVolTimer = null; 
+
+  let currentVolume = parseFloat(localStorage.getItem("radioVol"));
+  if (isNaN(currentVolume) || currentVolume < 0 || currentVolume > 1) currentVolume = 1;
+  let lastVolume = currentVolume > 0 ? currentVolume : 1;
 
   const BASE_URL = (location.protocol === "https:" ? "https://" : "http://") + "radio.9craft.ir:7443/";
 
-  /* ---------- Web Audio ---------- */
   let audioContext = null;
   let analyser = null;
   let sourceNode = null;
@@ -676,74 +677,61 @@ body {
   let freqData = null;
   let timeData = null;
   let audioGraphReady = false;
-  let audioGraphFailed = false;
   let rafId = null;
 
   const genresData = {
     phonk:  { title: "SMOKED OUT", artist: "PRXSXNT FXTURE • Phonk",
-      covers: ["https://picsum.photos/seed/phonk1/600","https://picsum.photos/seed/phonk2/600","https://picsum.photos/seed/phonk3/600","https://picsum.photos/seed/neon-phonk/600"] },
+      covers: ["https://picsum.photos/seed/phonk1/600","https://picsum.photos/seed/phonk2/600"] },
     phonk2: { title: "MONTAGEM GREEN", artist: "Tsk.4 • Phonk2",
-      covers: ["https://picsum.photos/seed/phonk2a/600","https://picsum.photos/seed/phonk2b/600","https://picsum.photos/seed/dark-phonk/600"] },
+      covers: ["https://picsum.photos/seed/phonk2a/600","https://picsum.photos/seed/phonk2b/600"] },
     persian:{ title: "Zemestoon", artist: "Afshin Moghadam • Persian",
-      covers: ["https://picsum.photos/seed/persian1/600","https://picsum.photos/seed/persian2/600","https://picsum.photos/seed/iran/600"] },
+      covers: ["https://picsum.photos/seed/persian1/600","https://picsum.photos/seed/persian2/600"] },
     lofi:   { title: "Crépuscule", artist: "DLJ • Lofi",
-      covers: ["https://picsum.photos/seed/lofi1/600","https://picsum.photos/seed/lofi2/600","https://picsum.photos/seed/chill/600"] },
+      covers: ["https://picsum.photos/seed/lofi1/600","https://picsum.photos/seed/lofi2/600"] },
     soul:   { title: "Soul", artist: "Radio • Soul",
-      covers: ["https://picsum.photos/seed/soul1/600","https://picsum.photos/seed/soul2/600","https://picsum.photos/seed/warm/600"] },
+      covers: ["https://picsum.photos/seed/soul1/600","https://picsum.photos/seed/soul2/600"] },
     rock:   { title: "Rock", artist: "Radio • Rock",
-      covers: ["https://picsum.photos/seed/rock1/600","https://picsum.photos/seed/rock2/600","https://picsum.photos/seed/guitar/600"] },
+      covers: ["https://picsum.photos/seed/rock1/600","https://picsum.photos/seed/rock2/600"] },
     pop:    { title: "Pop", artist: "Radio • Pop",
-      covers: ["https://picsum.photos/seed/pop1/600","https://picsum.photos/seed/pop2/600","https://picsum.photos/seed/colorful/600"] },
+      covers: ["https://picsum.photos/seed/pop1/600","https://picsum.photos/seed/pop2/600"] },
     hiphop: { title: "Hip-Hop", artist: "Radio • Hip-Hop",
-      covers: ["https://picsum.photos/seed/hiphop1/600","https://picsum.photos/seed/hiphop2/600","https://picsum.photos/seed/urban/600"] },
+      covers: ["https://picsum.photos/seed/hiphop1/600","https://picsum.photos/seed/hiphop2/600"] },
     country:{ title: "Country", artist: "Radio • Country",
-      covers: ["https://picsum.photos/seed/country1/600","https://picsum.photos/seed/country2/600","https://picsum.photos/seed/nature/600"] }
+      covers: ["https://picsum.photos/seed/country1/600","https://picsum.photos/seed/country2/600"] },
+    ost:     { title: "OST", artist: "Radio • OST", urlPath: "ost", covers: ["https://picsum.photos/seed/ost1/600"] },
+    pop2:    { title: "Pop 2", artist: "Radio • Pop 2", urlPath: "pop2", covers: ["https://picsum.photos/seed/pop2a/600"] },
+    persianrap: { title: "Persian Rap", artist: "Radio • Persian Rap", urlPath: "prap", covers: ["https://picsum.photos/seed/rap1/600"] },
+    relaxing:{ title: "Relaxing", artist: "Radio • Relaxing", urlPath: "relax", covers: ["https://picsum.photos/seed/relax1/600"] }
   };
 
-  /* ---------- Audio Graph (فقط بعد از تعامل کاربر) ---------- */
   function setupAudioGraph() {
     if (audioGraphReady) return true;
-    if (audioGraphFailed) return false;
-
     try {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) throw new Error("Web Audio API unavailable");
-
       audioContext = new AC();
-
-      // ⚠️ مهم: crossOrigin باید قبلاً تنظیم شده باشد (در HTML هم هست)
       sourceNode = audioContext.createMediaElementSource(audio);
-
       gainNode = audioContext.createGain();
       gainNode.gain.value = currentVolume;
-
       analyser = audioContext.createAnalyser();
       analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.78;
+      analyser.smoothingTimeConstant = 0.8;
       analyser.minDecibels = -90;
       analyser.maxDecibels = -10;
-
       sourceNode.connect(gainNode);
       gainNode.connect(analyser);
       analyser.connect(audioContext.destination);
-
       freqData = new Uint8Array(analyser.frequencyBinCount);
       timeData = new Uint8Array(analyser.fftSize);
       audioGraphReady = true;
       resizeCanvas();
       return true;
     } catch (err) {
-      console.warn("Web Audio unavailable, using fallback (audio.volume):", err);
-      audioGraphFailed = true;
-      audioContext = null;
-      analyser = null;
-      sourceNode = null;
-      gainNode = null;
+      console.warn("Web Audio unavailable:", err);
       return false;
     }
   }
 
-  /* ---------- Canvas ---------- */
   function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
@@ -754,7 +742,7 @@ body {
   }
 
   let lastFrame = 0;
-  const FRAME_INTERVAL = 1000 / 45;
+  const FRAME_INTERVAL = 1000 / 30; 
 
   function drawVisualizer(now) {
     rafId = requestAnimationFrame(drawVisualizer);
@@ -772,10 +760,7 @@ body {
       const cx = w / 2, cy = h * 0.53;
       const t2 = performance.now() / 800;
       const r = Math.min(w, h) * 0.2 * (1 + Math.sin(t2) * 0.06);
-      const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, r * 2);
-      grad.addColorStop(0, "rgba(45,212,191,0.18)");
-      grad.addColorStop(1, "rgba(45,212,191,0)");
-      ctx.fillStyle = grad;
+      ctx.fillStyle = "rgba(45,212,191,0.1)";
       ctx.beginPath();
       ctx.arc(cx, cy, r * 2, 0, Math.PI * 2);
       ctx.fill();
@@ -785,72 +770,68 @@ body {
     analyser.getByteFrequencyData(freqData);
     analyser.getByteTimeDomainData(timeData);
 
-    let bassSum = 0, midSum = 0, allSum = 0;
+    let bassSum = 0, level = 0;
     const n = freqData.length;
     for (let i = 0; i < n; i++) {
       const v = freqData[i] / 255;
-      allSum += v;
+      level += v;
       if (i < n * 0.12) bassSum += v;
-      else if (i < n * 0.5) midSum += v;
     }
+    level = level / n;
     const bass = bassSum / Math.max(1, n * 0.12);
-    const mid  = midSum  / Math.max(1, n * 0.38);
-    const level = allSum / n;
 
-    const pulse = 1 + Math.min(.18, bass * .22 + level * .08);
+    const pulse = 1 + Math.min(.15, bass * .2 + level * .05);
     const cx = w / 2, cy = h * .53;
     const radius = Math.min(w, h) * .22 * pulse;
 
-    const glow = ctx.createRadialGradient(cx, cy, 2, cx, cy, radius * 2.3);
-    glow.addColorStop(0, `rgba(45,212,191,${0.16 + bass * .22})`);
-    glow.addColorStop(.45, `rgba(45,212,191,${0.06 + mid * .10})`);
-    glow.addColorStop(1, "rgba(45,212,191,0)");
-    ctx.fillStyle = glow;
+    ctx.shadowBlur = 15 + bass * 20;
+    ctx.shadowColor = "rgba(45,212,191,0.6)";
+    ctx.fillStyle = `rgba(45,212,191,0.15)`;
     ctx.beginPath();
-    ctx.arc(cx, cy, radius * 2.3, 0, Math.PI * 2);
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    const bars = 72;
-    ctx.lineWidth = 3;
+    const bars = 50; 
+    ctx.lineWidth = 2.5;
     ctx.lineCap = "round";
-    ctx.strokeStyle = `rgba(45,212,191,${0.42 + Math.min(.45, level)})`;
+    ctx.strokeStyle = `rgba(45,212,191,${0.5 + level * 0.4})`;
+    ctx.shadowBlur = 0; 
 
     ctx.beginPath();
     for (let i = 0; i < bars; i++) {
-      const idx = Math.floor(i * (freqData.length * .82) / bars);
+      const idx = Math.floor(i * (freqData.length * .8) / bars);
       const value = freqData[idx] / 255;
       const angle = (Math.PI * 2 * i) / bars - Math.PI / 2;
-      const inner = radius + 4;
-      const outer = inner + 10 + value * Math.min(w, h) * .15;
-      const x1 = cx + Math.cos(angle) * inner;
-      const y1 = cy + Math.sin(angle) * inner;
-      const x2 = cx + Math.cos(angle) * outer;
-      const y2 = cy + Math.sin(angle) * outer;
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
+      const inner = radius + 3;
+      const outer = inner + 5 + value * Math.min(w, h) * .12;
+      ctx.moveTo(cx + Math.cos(angle) * inner, cy + Math.sin(angle) * inner);
+      ctx.lineTo(cx + Math.cos(angle) * outer, cy + Math.sin(angle) * outer);
     }
     ctx.stroke();
 
+    // ✅ برگرداندن نوار خطی (موج صدا) به پایین ویژوالایزر
     ctx.beginPath();
     for (let x = 0; x <= w; x += 3) {
       const i = Math.floor((x / w) * timeData.length);
       const sample = (timeData[i] - 128) / 128;
-      const y = h - 28 - sample * (12 + level * 25);
+      const y = h - 20 - sample * (15 + level * 30);
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
     ctx.lineWidth = 1.5;
-    ctx.strokeStyle = `rgba(165,243,252,${.25 + level * .5})`;
+    ctx.strokeStyle = `rgba(165, 243, 252, ${0.3 + level * 0.6})`; // رنگ آبی روشن فسفری
     ctx.stroke();
 
     if (playing) {
-      const brightness = 0.88 + Math.min(.28, level * .35 + bass * .08);
-      const saturation = 1.18 + Math.min(.45, level * .55);
-      cover.style.filter = `brightness(${brightness}) saturate(${saturation})`;
+      const brightness = 0.85 + Math.min(.25, level * .4 + bass * .1);
+      cover.style.filter = `brightness(${brightness}) saturate(1.2)`;
     }
   }
 
-  /* ---------- Cover ---------- */
+  cover.onerror = function() {
+    if (cover.src !== FALLBACK_IMG) cover.src = FALLBACK_IMG;
+  };
+
   function changeCover(genre) {
     const data = genresData[genre];
     if (!data) return;
@@ -866,7 +847,9 @@ body {
         requestAnimationFrame(() => cover.classList.remove("fade-out"));
       }, 300);
     };
-    newImg.onerror = () => {};
+    newImg.onerror = () => {
+      if (cover.src !== FALLBACK_IMG) cover.src = FALLBACK_IMG;
+    };
     newImg.src = nextCover;
   }
 
@@ -878,11 +861,26 @@ body {
     if (coverTimer) { clearInterval(coverTimer); coverTimer = null; }
   }
 
-  /* ---------- Playback ---------- */
+  function setLoadingUI(isLoading) {
+    loading = isLoading;
+    playBtn.disabled = isLoading;
+    genres.forEach(g => {
+      if (isLoading) g.classList.add("disabled");
+      else g.classList.remove("disabled");
+    });
+    
+    if (isLoading) {
+      playIcon.className = "fas fa-spinner";
+      playBtn.classList.add("loading");
+    } else {
+      playBtn.classList.remove("loading");
+    }
+  }
+
   async function togglePlay() {
     if (loading) return;
-
     if (playing) {
+      clearTimeout(retryTimer);
       audio.pause();
       playing = false;
       playIcon.className = "fas fa-play";
@@ -894,44 +892,38 @@ body {
     await startStream();
   }
 
-  async function startStream() {
+  async function startStream(isAutoReconnect = false) {
+    if (loading && !isAutoReconnect) return;
+
     const active = document.querySelector(".genre.active");
     const genre = active ? active.getAttribute("data-stream") : currentGenre;
-    const url = BASE_URL + genre;
+    const data = genresData[genre];
+    
+    const path = (data && data.urlPath) ? data.urlPath : genre;
+    const url = BASE_URL + path;
+    
     const reqId = ++playRequestId;
 
-    loading = true;
-    playIcon.className = "fas fa-spinner";
-    playBtn.classList.add("loading");
-    statusEl.textContent = "در حال اتصال...";
+    setLoadingUI(true);
+    statusEl.textContent = isAutoReconnect ? "⏳ تلاش مجدد..." : "در حال اتصال...";
 
     try {
-      // 1) گراف صوتی را فقط اینجا بساز (بعد از تعامل کاربر)
       setupAudioGraph();
-
-      // 2) اگر AudioContext در حالت suspended است، resume کن
       if (audioContext && audioContext.state === "suspended") {
         try { await audioContext.resume(); } catch(_) {}
       }
-
-      // 3) تغییر src فقط اگر URL تغییر کرده باشد
       if (audio.src !== url) {
         audio.src = url;
         audio.load();
       }
-
-      // 4) volume مرورگر هم همگام (برای fallback)
       audio.volume = currentVolume;
-
-      // 5) پخش
       await audio.play();
 
-      if (reqId !== playRequestId) return; // درخواست جدیدتری آمده
+      if (reqId !== playRequestId) return;
 
-      loading = false;
+      setLoadingUI(false);
       playing = true;
       currentGenre = genre;
-      playBtn.classList.remove("loading");
       playIcon.className = "fas fa-pause";
       waves.classList.remove("paused");
       statusEl.textContent = "🎵 پخش زنده";
@@ -939,28 +931,37 @@ body {
       startCoverRotation();
     } catch (err) {
       if (reqId !== playRequestId) return;
-
-      loading = false;
+      setLoadingUI(false);
       playing = false;
-      playBtn.classList.remove("loading");
       playIcon.className = "fas fa-play";
       waves.classList.add("paused");
       stopCoverRotation();
 
       let msg = "⚠️ اتصال ناموفق؛ دوباره ▶️ را بزن";
       if (err && err.name === "NotAllowedError") msg = "⚠️ مرورگر اجازه پخش نداد؛ یک بار دیگر بزن";
-      else if (err && err.name === "NotSupportedError") msg = "⚠️ فرمت استریم پشتیبانی نمی‌شود";
-      else if (err && err.name === "AbortError") msg = "⚠️ پخش لغو شد؛ دوباره تلاش کن";
-
+      else if (err && err.name === "NotSupportedError") msg = "⚠️ این ژانر روی سرور موجود نیست";
+      
       statusEl.textContent = msg;
       console.log("خطای پخش:", err);
     }
   }
 
+  function handleConnectionLoss() {
+    if (!playing) return;
+    statusEl.textContent = "⏳ اینترنت قطع شد؛ تلاش مجدد...";
+    setLoadingUI(true);
+    if (retryTimer) clearTimeout(retryTimer);
+    retryTimer = setTimeout(() => {
+      if (playing) startStream(true);
+    }, 3000);
+  }
+
+  window.addEventListener("online", () => { if (playing) startStream(true); });
+
   audio.addEventListener("playing", () => {
-    loading = false;
+    clearTimeout(retryTimer);
+    setLoadingUI(false);
     playing = true;
-    playBtn.classList.remove("loading");
     playIcon.className = "fas fa-pause";
     waves.classList.remove("paused");
   });
@@ -980,22 +981,14 @@ body {
     }
   });
 
-  audio.addEventListener("error", () => {
-    loading = false;
-    playing = false;
-    playBtn.classList.remove("loading");
-    playIcon.className = "fas fa-play";
-    waves.classList.add("paused");
-    stopCoverRotation();
-    statusEl.textContent = "⚠️ خطا در اتصال به استریم";
-  });
-
-  audio.addEventListener("pause", stopCoverRotation);
+  audio.addEventListener("error", handleConnectionLoss);
+  audio.addEventListener("stalled", handleConnectionLoss);
+  audio.addEventListener("pause", () => { if (!loading) stopCoverRotation(); });
 
   playBtn.addEventListener("click", togglePlay);
 
-  /* ---------- Genre Selection ---------- */
   function selectGenre(el) {
+    if (loading) return;
     const genre = el.getAttribute("data-stream");
     if (genre === currentGenre && playing) return;
 
@@ -1010,9 +1003,7 @@ body {
     }
 
     coverIndex = 0;
-    if (data && data.covers && data.covers[0]) {
-      cover.src = data.covers[0];
-    }
+    if (data && data.covers && data.covers[0]) cover.src = data.covers[0];
 
     if (playing) {
       stopCoverRotation();
@@ -1026,36 +1017,36 @@ body {
 
   genresContainer.addEventListener("click", (e) => {
     const el = e.target.closest(".genre");
-    if (el) selectGenre(el);
+    if (el && !el.classList.contains("disabled")) selectGenre(el);
   });
 
   genresContainer.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       const el = e.target.closest(".genre");
-      if (el) { e.preventDefault(); selectGenre(el); }
+      if (el && !el.classList.contains("disabled")) { 
+        e.preventDefault(); 
+        selectGenre(el); 
+      }
     }
   });
 
-  /* ================= Volume ================= */
-
-  // ✅ FIX: صدا یک‌بار اعمال می‌شود (Gain یا audio.volume — نه هر دو)
   function applyVolume(v) {
     v = Math.max(0, Math.min(1, v));
     currentVolume = v;
 
+    clearTimeout(saveVolTimer);
+    saveVolTimer = setTimeout(() => {
+      localStorage.setItem("radioVol", v);
+    }, 500);
+
     if (audioGraphReady && gainNode && audioContext) {
-      // مسیر Web Audio فعال — فقط Gain
       const now = audioContext.currentTime;
       try {
         gainNode.gain.cancelScheduledValues(now);
-        gainNode.gain.setTargetAtTime(v, now, 0.015);
-      } catch(_) {
-        gainNode.gain.value = v;
-      }
-      // اطمینان از اینکه audio.volume روی 1 است تا دو بار کم نشود
+        gainNode.gain.setTargetAtTime(v, now, 0.05);
+      } catch(_) { gainNode.gain.value = v; }
       try { audio.volume = 1; } catch(_) {}
     } else {
-      // fallback — فقط audio.volume
       try { audio.volume = v; } catch(_) {}
     }
   }
@@ -1065,12 +1056,8 @@ body {
     volumeValue.textContent = percent + "%";
     volumeSlider.value = percent;
     volumeSlider.style.setProperty("--vol-percent", percent + "%");
-
     muteIcon.className = "fas " +
-      (v === 0     ? "fa-volume-xmark" :
-       v < 0.33    ? "fa-volume-off"   :
-       v < 0.66    ? "fa-volume-low"   : "fa-volume-high");
-
+      (v === 0 ? "fa-volume-xmark" : v < 0.33 ? "fa-volume-off" : v < 0.66 ? "fa-volume-low" : "fa-volume-high");
     muteBtn.classList.toggle("mute", v === 0);
   }
 
@@ -1089,57 +1076,36 @@ body {
     setVolume(parseFloat(e.target.value) / 100);
   }, { passive: true });
 
-  // ✅ FIX: pointermove فقط وقتی در حال drag هستیم
   let isDragging = false;
   volumeSlider.addEventListener("pointerdown", (e) => {
     isDragging = true;
-    if (audioContext && audioContext.state === "suspended") {
-      audioContext.resume().catch(() => {});
-    }
+    if (audioContext && audioContext.state === "suspended") audioContext.resume().catch(() => {});
     try { volumeSlider.setPointerCapture(e.pointerId); } catch(_) {}
   });
-
   volumeSlider.addEventListener("pointerup", () => { isDragging = false; });
   volumeSlider.addEventListener("pointercancel", () => { isDragging = false; });
   volumeSlider.addEventListener("lostpointercapture", () => { isDragging = false; });
-
   volumeSlider.addEventListener("pointermove", (e) => {
     if (!isDragging) return;
     const rect = volumeSlider.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const v = Math.max(0, Math.min(1, x / rect.width));
-    setVolume(v);
+    setVolume(Math.max(0, Math.min(1, x / rect.width)));
   });
 
   muteBtn.addEventListener("click", () => {
-    if (currentVolume > 0) {
-      lastVolume = currentVolume;
-      setVolume(0, { updateLast: false });
-    } else {
-      setVolume(lastVolume || 1);
-    }
+    if (currentVolume > 0) { lastVolume = currentVolume; setVolume(0, { updateLast: false }); }
+    else { setVolume(lastVolume || 1); }
   });
 
   volumeSlider.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp" || e.key === "ArrowRight") {
-      e.preventDefault();
-      setVolume(currentVolume + 0.05);
-    } else if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
-      e.preventDefault();
-      setVolume(currentVolume - 0.05);
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      setVolume(0);
-    } else if (e.key === "End") {
-      e.preventDefault();
-      setVolume(1);
-    }
+    if (e.key === "ArrowUp" || e.key === "ArrowRight") { e.preventDefault(); setVolume(currentVolume + 0.05); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowLeft") { e.preventDefault(); setVolume(currentVolume - 0.05); }
+    else if (e.key === "Home") { e.preventDefault(); setVolume(0); }
+    else if (e.key === "End") { e.preventDefault(); setVolume(1); }
   });
 
-  // مقدار اولیه
-  setVolume(1);
+  setVolume(currentVolume);
 
-  /* ---------- Resize ---------- */
   let resizeTimer = null;
   window.addEventListener("resize", () => {
     if (resizeTimer) clearTimeout(resizeTimer);
@@ -1147,20 +1113,29 @@ body {
   });
   window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 300));
 
-  /* ---------- Visibility ---------- */
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopCoverRotation();
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     } else {
-      if (playing) startCoverRotation();
+      if (playing) {
+        startCoverRotation();
+        if (audioContext && audioContext.state === "suspended") audioContext.resume().catch(() => {});
+        if (audio.paused) audio.play().catch(() => {});
+      }
       lastFrame = 0;
       if (!rafId) rafId = requestAnimationFrame(drawVisualizer);
     }
   });
 
-  /* ---------- Init ---------- */
-  // ⚠️ setupAudioGraph() را از اینجا حذف کردیم — فقط داخل startStream ساخته می‌شود
+  cover.src = FALLBACK_IMG;
+  if (genresData[currentGenre] && genresData[currentGenre].covers[0]) {
+    const firstCover = new Image();
+    firstCover.crossOrigin = "anonymous";
+    firstCover.onload = () => { cover.src = firstCover.src; };
+    firstCover.src = genresData[currentGenre].covers[0];
+  }
+
   resizeCanvas();
   rafId = requestAnimationFrame(drawVisualizer);
   statusEl.textContent = "برای پخش، دکمه ▶️ را بزن";
